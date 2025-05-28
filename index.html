@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NikoTeka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: cursive;
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff4757, #ff3838);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+            text-shadow: 0 0 30px rgba(255, 71, 87, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            min-height: calc(100vh - 300px);
+            padding-bottom: 4rem;
+        }
+
+        .content-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .content-preview {
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 71, 87, 0.2);
+            background: rgba(40, 40, 40, 0.95);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .content-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-date {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            font-weight: 400;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 71, 87, 0.2);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ff4757;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .footer-section p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            text-align: center;
+            margin: 0 2rem;
+        }
+
+        /* Content Page Styles */
+        .content-page {
+            display: none;
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content-page.active {
+            display: block;
+        }
+
+        .content-page h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .content-body {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d0d0d0;
+            margin-bottom: 3rem;
+        }
+
+        .content-body h3 {
+            font-size: 1.5rem;
+            color: #ff4757;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .content-body p {
+            margin-bottom: 1rem;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #ff4757, #ff3838);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.4);
+        }
+
+        .main-page {
+            display: block;
+        }
+
+        .main-page.hidden {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .content-preview {
+                padding: 1.5rem;
+            }
+
+            .content-page {
+                padding: 2rem;
+            }
+
+            .content-page h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Page -->
+        <div id="mainPage" class="main-page">
+            <header>
+                <h1>NikoTeka</h1>
+            </header>
+
+            <main>
+                <div class="content-grid">
+                    <!-- Content Preview 1 -->
+                    <div class="content-preview" onclick="showContent('content1')">
+                        <div class="content-title">Introducción a los Fundamentos de Programación</div>
+                        <div class="content-date">15 de marzo, 2025</div>
+                    </div>
+
+                    <!-- Content Preview 2 -->
+                    <div class="content-preview" onclick="showContent('content2')">
+                        <div class="content-title">Estructuras de Datos y Algoritmos Básicos</div>
+                        <div class="content-date">22 de marzo, 2025</div>
+                    </div>
+
+                    <!-- Content Preview 3 -->
+                    <div class="content-preview" onclick="showContent('content3')">
+                        <div class="content-title">Desarrollo Web con HTML y CSS</div>
+                        <div class="content-date">29 de marzo, 2025</div>
+                    </div>
+                </div>
+            </main>
+
+            <footer>
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Sobre la Página</h3>
+                        <p>NikoTeka es una NikoPedia dedicada a almacenar y organizar todos los registros de las clases con el profesor Nikollas. Aquí encontrarás un compendio completo de aprendizajes, proyectos y experiencias académicas.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Sobre el Autor</h3>
+                        <p>Soy un joven desarrollador que estudia en ETEP, cursando Técnico en Informática. Apasionado por la tecnología y el desarrollo web, utilizo este espacio para documentar mi journey académico y profesional.</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Content Pages -->
+        <div id="content1" class="content-page">
+            <h2>Introducción a los Fundamentos de Programación</h2>
+            <div class="content-body">
+                <p>En esta clase exploramos los conceptos fundamentales de la programación, estableciendo las bases para el desarrollo de software.</p>
+                
+                <h3>Conceptos Clave</h3>
+                <p>Durante la sesión, el profesor Nikollas nos introdujo a los conceptos esenciales como variables, tipos de datos, estructuras de control y la lógica de programación. Aprendimos sobre la importancia de la planificación antes de codificar y cómo estructurar nuestros pensamientos de manera algorítmica.</p>
+                
+                <p>Los ejercicios prácticos incluyeron la resolución de problemas simples utilizando pseudocódigo, lo que nos ayudó a entender la lógica sin preocuparnos por la sintaxis específica de un lenguaje.</p>
+                
+                <h3>Reflexiones</h3>
+                <p>Esta clase sentó las bases fundamentales para todo el aprendizaje posterior. La metodología del profesor para explicar conceptos abstractos mediante ejemplos concretos fue extremadamente efectiva.</p>
+            </div>
+            <button class="back-button" onclick="goBack()">Volver</button>
+        </div>
+
+        <div id="content2" class="content-page">
+            <h2>Estructuras de Datos y Algoritmos Básicos</h2>
+            <div class="content-body">
+                <p>En esta segunda clase profundizamos en las estructuras de datos fundamentales y algoritmos básicos de ordenamiento y búsqueda.</p>
+                
+                <h3>Estructuras Estudiadas</h3>
+                <p>Exploramos arrays, listas enlazadas, pilas y colas. Cada estructura fue analizada en términos de sus ventajas, desventajas y casos de uso más apropiados. El profesor Nikollas utilizó analogías muy efectivas para explicar cada concepto.</p>
+                
+                <h3>Algoritmos de Ordenamiento</h3>
+                <p>Estudiamos algoritmos básicos como bubble sort, selection sort e insertion sort. Aunque no son los más eficientes, nos ayudaron a entender los principios fundamentales del análisis de complejidad.</p>
+                
+                <p>La práctica incluyó implementaciones manuales de estos algoritmos y análisis de su complejidad temporal y espacial.</p>
+            </div>
+            <button class="back-button" onclick="goBack()">Volver</button>
+        </div>
+
+        <div id="content3" class="content-page">
+            <h2>Desarrollo Web con HTML y CSS</h2>
+            <div class="content-body">
+                <p>Esta clase nos introdujo al mundo del desarrollo web, comenzando con los lenguajes fundamentales: HTML y CSS.</p>
+                
+                <h3>HTML - La Estructura</h3>
+                <p>Aprendimos sobre la estructura semántica del HTML5, la importancia de usar las etiquetas correctas para cada tipo de contenido, y cómo crear documentos web bien estructurados y accesibles.</p>
+                
+                <h3>CSS - El Estilo</h3>
+                <p>CSS nos permitió dar vida visual a nuestras estructuras HTML. Exploramos selectores, propiedades, el modelo de caja, y técnicas básicas de layout como flexbox y grid.</p>
+                
+                <h3>Proyecto Práctico</h3>
+                <p>Como culminación de la clase, creamos nuestras primeras páginas web completas, aplicando todo lo aprendido sobre estructura semántica y diseño visual. ¡Incluyendo esta misma NikoTeka!</p>
+            </div>
+            <button class="back-button" onclick="goBack()">Volver</button>
+        </div>
+    </div>
+
+    <script>
+        function showContent(contentId) {
+            // Hide main page
+            document.getElementById('mainPage').classList.add('hidden');
+            
+            // Hide all content pages
+            const contentPages = document.querySelectorAll('.content-page');
+            contentPages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected content
+            document.getElementById(contentId).classList.add('active');
+        }
+
+        function goBack() {
+            // Hide all content pages
+            const contentPages = document.querySelectorAll('.content-page');
+            contentPages.forEach(page => page.classList.remove('active'));
+            
+            // Show main page
+            document.getElementById('mainPage').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
